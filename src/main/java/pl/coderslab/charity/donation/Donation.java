@@ -20,11 +20,20 @@ public class Donation {
     @ManyToOne
     private Institution institution;
     private String street;
+    private String city;
     private String ZipCode;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate pickUpDate;
     private LocalTime pickUpTime;
     private String pickUpComment;
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
 
     public Long getId() {
         return id;
