@@ -172,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function() {
     new FormSteps(form);
   }
 
-const formularz = document.querySelector("form")
+const formularz = document.querySelector(".donation")
  formularz.addEventListener("change", e => {
    e.preventDefault();
    const sum = document.querySelectorAll(".summary--text")

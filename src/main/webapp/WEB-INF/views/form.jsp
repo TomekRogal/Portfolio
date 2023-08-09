@@ -67,7 +67,7 @@
     <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>1</span>/4</div>
 
-        <form:form method="post" modelAttribute="donation">
+        <form:form cssClass="donation" method="post" modelAttribute="donation">
             <form:hidden path="id"/>
             <form:hidden path="user"/>
             <!-- STEP 1: class .active is switching steps -->
@@ -207,19 +207,19 @@
                         <div class="form-section--column">
                             <h4>Adres odbioru:</h4>
                             <ul>
-                                <li class="street">Prosta 51</li>
-                                <li class="city">Warszawa</li>
-                                <li class="code">99-098</li>
-                                <li class="phone">123 456 789</li>
+                                <li class="street"></li>
+                                <li class="city"></li>
+                                <li class="code"></li>
+                                <li class="phone"></li>
                             </ul>
                         </div>
 
                         <div class="form-section--column">
                             <h4>Termin odbioru:</h4>
                             <ul>
-                                <li class="date">13/12/2018</li>
-                                <li class="time">15:40</li>
-                                <li class="comment">Brak uwag</li>
+                                <li class="date"></li>
+                                <li class="time"></li>
+                                <li class="comment"></li>
                             </ul>
                         </div>
                     </div>
