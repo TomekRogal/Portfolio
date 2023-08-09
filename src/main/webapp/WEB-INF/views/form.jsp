@@ -44,26 +44,16 @@
             <!-- STEP 1: class .active is switching steps -->
             <div data-step="1" class="active">
                 <h3>Zaznacz co chcesz oddać:</h3>
+<%--                <form:checkboxes path="categories" elements=" span class='checkbox'" items="${categories}"/>--%>
 
-<%--                <div class="form-group form-group--checkbox">--%>
-<%--                    <label>--%>
-<%--                <form:checkboxes path="categories" itemLabel="name" itemValue="id"--%>
-<%--                                 items="${categories}"/>--%>
 
-<%--                    </label>--%>
-<%--                </div>--%>
                 <c:forEach items="${categories}" var="category">
                 <div class="form-group form-group--checkbox">
                     <label>
-                        <input
-                                type="checkbox"
-                                name="categories"
-                                value="${category.id}"
-                        />
+                        <input class="cat" type="checkbox" name="categories" value="${category.id}" id="${category.name}"/>
+<%--                        <form:checkbox cssClass="cat" path="categories" name="categories"  value="${category.id}" id="${category.name}"/>--%>
                         <span class="checkbox"></span>
-                        <span class="description"
-                        >${category.name}</span
-                        >
+                        <span class="description">${category.name}</span>
                     </label>
                 </div>
                 </c:forEach>
@@ -80,7 +70,7 @@
                 <div class="form-group form-group--inline">
                     <label>
                         Liczba 60l worków:
-                        <form:input path="quantity" type="number" name="bags" step="1" min="1" />
+                        <form:input path="quantity" type="number" name="bags" id="bags" step="1" min="1" />
                     </label>
                 </div>
 
@@ -98,32 +88,15 @@
                 <c:forEach items="${institutions}" var="institution">
                 <div class="form-group form-group--checkbox">
                     <label>
-                        <form:radiobutton path="institution" name="organization" value="${institution.id}" />
+                        <form:radiobutton cssClass="inst" path="institution" name="organization" value="${institution.id}" id="${institution.name}"/>
                                             <span class="checkbox radio"></span>
-                                            <span class="description">
+                                    <span class="description">
                                       <div class="title">Fundacja "${institution.name}"</div>
-                                      <div class="subtitle">
-                                        Cel i misja: ${institution.description}
-                                      </div>
+                                      <div class="subtitle">Cel i misja: ${institution.description}</div>
                                     </span>
-                                        </label>
-                                    </div>
+                    </label>
+                </div>
                 </c:forEach>
-
-<%--                <div class="form-group form-group--checkbox">--%>
-<%--                    <label>--%>
-<%--                        <input type="radio" name="organization" value="old" />--%>
-<%--                        <span class="checkbox radio"></span>--%>
-<%--                        <span class="description">--%>
-<%--                  <div class="title">Fundacja “Bez domu”</div>--%>
-<%--                  <div class="subtitle">--%>
-<%--                    Cel i misja: Pomoc dla osób nie posiadających miejsca--%>
-<%--                    zamieszkania--%>
-<%--                  </div>--%>
-<%--                </span>--%>
-<%--                    </label>--%>
-<%--                </div>--%>
-
 
                 <div class="form-group form-group--buttons">
                     <button type="button" class="btn prev-step">Wstecz</button>
@@ -193,16 +166,12 @@
                         <ul>
                             <li>
                                 <span class="icon icon-bag"></span>
-                                <span class="summary--text"
-                                >4 worki ubrań w dobrym stanie dla dzieci</span
-                                >
+                                <span class="summary--text"></span>
                             </li>
 
                             <li>
                                 <span class="icon icon-hand"></span>
-                                <span class="summary--text"
-                                >Dla fundacji "Mam marzenie" w Warszawie</span
-                                >
+                                <span class="summary--text"></span>
                             </li>
                         </ul>
                     </div>
@@ -211,8 +180,7 @@
                         <div class="form-section--column">
                             <h4>Adres odbioru:</h4>
                             <ul>
-                                <li>Prosta 51
-                                </li>
+                                <li>Prosta 51</li>
                                 <li>Warszawa</li>
                                 <li>99-098</li>
                                 <li>123 456 789</li>

@@ -171,4 +171,36 @@ document.addEventListener("DOMContentLoaded", function() {
   if (form !== null) {
     new FormSteps(form);
   }
+
+const formularz = document.querySelector("form")
+ formularz.addEventListener("change", e => {
+   e.preventDefault();
+   const sum = document.querySelectorAll(".summary--text")
+   const ilosc = document.getElementById("bags")
+   const kategorie = document.querySelectorAll(".cat")
+   if(ilosc.value == 1){
+     sum[0].innerText = ilosc.value + " worek z kategorii:"
+   }
+   if(ilosc.value >1 && ilosc.value <5){
+     sum[0].innerText = ilosc.value + " worki z kategorii:"
+   }
+   if(ilosc.value >= 5){
+     sum[0].innerText = ilosc.value + " worków z kategorii:"
+   }
+   let counter = 0;
+   kategorie.forEach(el => {
+     if(el.checked){
+       if(counter>0){
+         sum[0].innerText += ","
+       }
+       sum[0].innerText += " " + el.getAttribute("id")
+       counter++
+     }
+   })
+   const fundacje = document.querySelectorAll(".inst")
+   fundacje.forEach(el => {
+     if(el.checked){
+       sum[1].innerText = "Dla fundacji \"" + el.getAttribute("id")+ "\""}
+   })
+ });
 });

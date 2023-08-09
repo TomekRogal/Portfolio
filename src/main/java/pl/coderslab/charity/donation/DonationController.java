@@ -37,8 +37,6 @@ public class DonationController {
     @RequestMapping("/donation")
     public String add(Model model) {
         Donation donation = new Donation();
-//        model.addAttribute("categories",categoryRepository.findAll());
-//        model.addAttribute("institutions",institutionRepository.findAll());
         model.addAttribute("donation",donation);
         return "form";
     }
