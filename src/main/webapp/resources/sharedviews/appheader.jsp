@@ -4,11 +4,18 @@
     <nav class="container container--70">
         <ul class="nav--actions">
             <li class="logged-user">
-                Witaj Agata
+                Witaj ${loggedUser.username}
                 <ul class="dropdown">
                     <li><a href="#">Profil</a></li>
                     <li><a href="#">Moje zbiórki</a></li>
-                    <li><a href="#">Wyloguj</a></li>
+                    <li>
+                        <a>
+                            <form action="<c:url value="/logout"/>" method="post">
+                                <input class="btn--small" type="submit" value="Wyloguj">
+                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            </form>
+                        </a>
+                    </li>
                 </ul>
             </li>
         </ul>

@@ -10,6 +10,7 @@ import pl.coderslab.charity.category.CategoryRepository;
 import pl.coderslab.charity.institution.Institution;
 import pl.coderslab.charity.institution.InstitutionRepository;
 import pl.coderslab.charity.user.CurrentUser;
+import pl.coderslab.charity.user.UserRepository;
 
 
 import javax.validation.Valid;
@@ -20,14 +21,15 @@ public class DonationController {
     private final CategoryRepository categoryRepository;
     private final InstitutionRepository institutionRepository;
     private final DonationRepository donationRepository;
+    private final UserRepository userRepository;
 
 
 
-    public DonationController(CategoryRepository categoryRepository, InstitutionRepository institutionRepository, DonationRepository donationRepository) {
+    public DonationController(CategoryRepository categoryRepository, InstitutionRepository institutionRepository, DonationRepository donationRepository, UserRepository userRepository) {
         this.categoryRepository = categoryRepository;
         this.institutionRepository = institutionRepository;
         this.donationRepository = donationRepository;
-
+        this.userRepository = userRepository;
     }
     @ModelAttribute("categories")
     public List<Category> categories() {
@@ -40,6 +42,9 @@ public class DonationController {
 
     @RequestMapping("/donation")
     public String add(@AuthenticationPrincipal CurrentUser customUser, Model model) {
+        if (customUser != null) {
+            model.addAttribute("loggedUser", userRepository.findById(customUser.getUser().getId()).get());
+        }
         Donation donation = new Donation();
         donation.setUser(customUser.getUser());
         model.addAttribute("donation",donation);
