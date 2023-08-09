@@ -14,7 +14,35 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/style.css"/>"/>
 </head>
 <body>
+<header class="header--form-page">
 <jsp:include page="/resources/sharedviews/appheader.jsp"/>
+    <div class="slogan container container--90">
+        <div class="slogan--item">
+            <h1>
+                Oddaj rzeczy, których już nie chcesz<br />
+                <span class="uppercase">potrzebującym</span>
+            </h1>
+
+            <div class="slogan--steps">
+                <div class="slogan--steps-title">Wystarczą 4 proste kroki:</div>
+                <ul class="slogan--steps-boxes">
+                    <li>
+                        <div><em>1</em><span>Wybierz rzeczy</span></div>
+                    </li>
+                    <li>
+                        <div><em>2</em><span>Spakuj je w worki</span></div>
+                    </li>
+                    <li>
+                        <div><em>3</em><span>Wybierz fundację</span></div>
+                    </li>
+                    <li>
+                        <div><em>4</em><span>Zamów kuriera</span></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
 
 <section class="form--steps">
     <div class="form--steps-instructions">
@@ -41,12 +69,11 @@
 
         <form:form method="post" modelAttribute="donation">
             <form:hidden path="id"/>
+            <form:hidden path="user"/>
             <!-- STEP 1: class .active is switching steps -->
             <div data-step="1" class="active">
                 <h3>Zaznacz co chcesz oddać:</h3>
 <%--                <form:checkboxes path="categories" elements=" span class='checkbox'" items="${categories}"/>--%>
-
-
                 <c:forEach items="${categories}" var="category">
                 <div class="form-group form-group--checkbox">
                     <label>
@@ -116,18 +143,18 @@
                         </div>
 
                         <div class="form-group form-group--inline">
-                            <label> Miasto <form:input path="city" type="text" name="city" /> </label>
+                            <label> Miasto <form:input path="city" type="text" name="city" id="city" /> </label>
                         </div>
 
                         <div class="form-group form-group--inline">
                             <label>
-                                Kod pocztowy <form:input path="zipCode" type="text" name="postcode" />
+                                Kod pocztowy <form:input path="zipCode" type="text" name="postcode" id="zipCode" />
                             </label>
                         </div>
 
                         <div class="form-group form-group--inline">
                             <label>
-                                Numer telefonu <input type="phone" name="phone" />
+                                Numer telefonu <form:input path="phoneNumber" type="phone" name="phone" id="phone"/>
                             </label>
                         </div>
                     </div>
@@ -135,17 +162,17 @@
                     <div class="form-section--column">
                         <h4>Termin odbioru</h4>
                         <div class="form-group form-group--inline">
-                            <label> Data <form:input path="pickUpDate" type="date" name="data" /> </label>
+                            <label> Data <form:input path="pickUpDate" type="date" name="data" id="date" /> </label>
                         </div>
 
                         <div class="form-group form-group--inline">
-                            <label> Godzina <form:input path="pickUpTime" type="time" name="time" /> </label>
+                            <label> Godzina <form:input path="pickUpTime" type="time" name="time" id="time" /> </label>
                         </div>
 
                         <div class="form-group form-group--inline">
                             <label>
                                 Uwagi dla kuriera
-                                <form:textarea path="pickUpComment" name="more_info" rows="5"></form:textarea>
+                                <form:textarea path="pickUpComment" name="more_info" rows="5" id="info"/>
                             </label>
                         </div>
                     </div>
@@ -180,19 +207,19 @@
                         <div class="form-section--column">
                             <h4>Adres odbioru:</h4>
                             <ul>
-                                <li>Prosta 51</li>
-                                <li>Warszawa</li>
-                                <li>99-098</li>
-                                <li>123 456 789</li>
+                                <li class="street">Prosta 51</li>
+                                <li class="city">Warszawa</li>
+                                <li class="code">99-098</li>
+                                <li class="phone">123 456 789</li>
                             </ul>
                         </div>
 
                         <div class="form-section--column">
                             <h4>Termin odbioru:</h4>
                             <ul>
-                                <li>13/12/2018</li>
-                                <li>15:40</li>
-                                <li>Brak uwag</li>
+                                <li class="date">13/12/2018</li>
+                                <li class="time">15:40</li>
+                                <li class="comment">Brak uwag</li>
                             </ul>
                         </div>
                     </div>

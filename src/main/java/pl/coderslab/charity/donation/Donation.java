@@ -3,6 +3,7 @@ package pl.coderslab.charity.donation;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.coderslab.charity.category.Category;
 import pl.coderslab.charity.institution.Institution;
+import pl.coderslab.charity.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -19,13 +20,32 @@ public class Donation {
     private List<Category> categories;
     @ManyToOne
     private Institution institution;
+    @ManyToOne
+    private User user;
     private String street;
     private String city;
     private String ZipCode;
+    private String phoneNumber;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate pickUpDate;
     private LocalTime pickUpTime;
     private String pickUpComment;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
     public String getCity() {
         return city;
