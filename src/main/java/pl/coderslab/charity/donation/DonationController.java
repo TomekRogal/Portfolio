@@ -10,6 +10,7 @@ import pl.coderslab.charity.category.CategoryRepository;
 import pl.coderslab.charity.institution.Institution;
 import pl.coderslab.charity.institution.InstitutionRepository;
 import pl.coderslab.charity.user.CurrentUser;
+import pl.coderslab.charity.user.User;
 import pl.coderslab.charity.user.UserRepository;
 
 
@@ -39,12 +40,19 @@ public class DonationController {
     public List<Institution> institutions() {
         return institutionRepository.findAll();
     }
+    @ModelAttribute("loggedUser")
+    public User user(@AuthenticationPrincipal CurrentUser customUser) {
+        if (customUser != null) {
+            return userRepository.findById(customUser.getUser().getId()).get();
+        }
+        return null;
+    }
 
     @RequestMapping("/donation")
     public String add(@AuthenticationPrincipal CurrentUser customUser, Model model) {
-        if (customUser != null) {
-            model.addAttribute("loggedUser", userRepository.findById(customUser.getUser().getId()).get());
-        }
+//        if (customUser != null) {
+//            model.addAttribute("loggedUser", userRepository.findById(customUser.getUser().getId()).get());
+//        }
         Donation donation = new Donation();
         donation.setUser(customUser.getUser());
         model.addAttribute("donation",donation);
