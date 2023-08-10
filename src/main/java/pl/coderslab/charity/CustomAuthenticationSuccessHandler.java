@@ -24,12 +24,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         for (final GrantedAuthority grantedAuthority : authorities) {
             String authorityName = grantedAuthority.getAuthority();
             if (authorityName.equals("ROLE_ADMIN")) {
-                // if the user is an ADMIN delegate to the adminSuccessHandler
                 this.adminSuccessHandler.onAuthenticationSuccess(request, response, authentication);
                 return;
             }
         }
-        // if the user is not an admin delegate to the userSuccessHandler
         this.userSuccessHandler.onAuthenticationSuccess(request, response, authentication);
     }
 }
