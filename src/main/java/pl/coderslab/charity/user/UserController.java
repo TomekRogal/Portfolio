@@ -1,20 +1,22 @@
 package pl.coderslab.charity.user;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
+@SessionAttributes("loggedUser")
 @Controller
 public class UserController {
     private final UserService userService;
+    private final UserRepository userRepository;
 
-    public UserController(UserService userService) {
+
+    public UserController(UserService userService, UserRepository userRepository) {
         this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/login")
@@ -44,6 +46,13 @@ public class UserController {
         }
         userService.saveUser(user);
         return "redirect:/login";
+    }
+    @GetMapping("/admin")
+    public String admin(@AuthenticationPrincipal CurrentUser customUser, Model model){
+        if (customUser != null) {
+            model.addAttribute("loggedUser", userRepository.findById(customUser.getUser().getId()).get());
+        }
+        return "admin";
     }
 
 }

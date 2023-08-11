@@ -16,7 +16,7 @@ import pl.coderslab.charity.user.UserRepository;
 
 import javax.validation.Valid;
 import java.util.List;
-
+@SessionAttributes("loggedUser")
 @Controller
 public class DonationController {
     private final CategoryRepository categoryRepository;
@@ -40,19 +40,12 @@ public class DonationController {
     public List<Institution> institutions() {
         return institutionRepository.findAll();
     }
-    @ModelAttribute("loggedUser")
-    public User user(@AuthenticationPrincipal CurrentUser customUser) {
-        if (customUser != null) {
-            return userRepository.findById(customUser.getUser().getId()).get();
-        }
-        return null;
-    }
 
     @RequestMapping("/donation")
     public String add(@AuthenticationPrincipal CurrentUser customUser, Model model) {
-//        if (customUser != null) {
-//            model.addAttribute("loggedUser", userRepository.findById(customUser.getUser().getId()).get());
-//        }
+        if (customUser != null) {
+            model.addAttribute("loggedUser", userRepository.findById(customUser.getUser().getId()).get());
+        }
         Donation donation = new Donation();
         donation.setUser(customUser.getUser());
         model.addAttribute("donation",donation);
