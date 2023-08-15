@@ -18,8 +18,8 @@
 <section class="steps">
     <h2>Zarządzanie:</h2>
     <a href="/admin/institution/all" class="btn btn--large">Instytucje</a><br>
-    <a href="/admin/users/all" class="btn btn--large">Użytkownicy</a><br>
-    <a href="/admin/admins/all" class="btn btn--large">Administratorzy</a><br>
+    <a href="/admin/user/all" class="btn btn--large">Użytkownicy</a><br>
+    <a href="/admin/all" class="btn btn--large">Administratorzy</a><br>
 
 </section>
 <script src="<c:url value="/resources/js/app.js"/>"></script>

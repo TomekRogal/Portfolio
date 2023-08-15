@@ -16,26 +16,30 @@
 </header>
 
 <section class="table-sub-heading-color">
-    <h2>Instytucje:</h2>
+    <h2>Administratorzy:</h2>
     <div class="table-tab">
-        <table id="tableinstitutions" class="table" >
+        <table id="tableadmins" class="table" >
             <thead>
             <tr>
-                <th>Nazwa</th>
-                <th>Opis</th>
+                <th>Nazwa Użytkownika</th>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+                <th>Email</th>
                 <th>Akcje</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${institutions}" var="institution">
+            <c:forEach items="${admins}" var="admin">
                 <tr>
-                    <td>${institution.name}</td>
-                    <td>${institution.description}</td>
+                    <td>${admin.username}</td>
+                    <td>${admin.firstName}</td>
+                    <td>${admin.lastName}</td>
+                    <td>${admin.email}</td>
                     <td>
-                        <a href="/admin/institution/edit/${institution.id}">
+                        <a href="/admin/edit/${admin.id}">
                             <button type="button" class="btn btn--small">Edytuj</button>
                         </a>
-                        <a href="/admin/institution/delete/${institution.id}" class="delete-link">
+                        <a href="/admin/delete/${admin.id}" class="delete-link">
                             <button type="button" class="btn btn--small">Usuń</button>
                         </a>
                     </td>
@@ -43,8 +47,8 @@
             </c:forEach>
             </tbody>
         </table>
-        <a href="/admin/institution/add">
-        <button style="margin-right:30px;float:right" type="button" class="btn">Dodaj</button>
+        <a href="/admin/add">
+            <button style="margin-right:30px;float:right" type="button" class="btn">Dodaj</button>
         </a>
     </div>
 </section>

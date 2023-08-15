@@ -18,23 +18,32 @@
 </header>
 
 <section class="form-section">
-    <h2>Edytuj instytucję:</h2>
+    <h2>Edytuj dane administratora:</h2>
     <div class="form">
         <form:form method="post"
-                   modelAttribute="institution" cssStyle="text-align: center">
+                   modelAttribute="admin" cssStyle="text-align: center">
             <form:hidden path="id"/>
+            <form:hidden path="password"/>
+            <form:hidden path="roles"/>
+            <form:hidden path="enabled"/>
             <div class="form-group">
-                <form:input path="name"  type="text" name="name" placeholder="Nazwa" />
+                <form:input path="username"  type="text" name="username" placeholder="Nazwa użytkownika" />
             </div>
             <div class="form-group">
-                <form:textarea path="description"  type="text" name="description" placeholder="Opis" rows="10"/>
+                <form:input path="firstName"  type="text" name="firstName" placeholder="Imię"/>
             </div>
             <div class="form-group">
-            <input class="btn" type="submit" value="Edytuj">
+                <form:input path="lastName"  type="text" name="lastName" placeholder="Nazwisko"/>
+            </div>
+            <div class="form-group">
+                <form:input path="email"  type="email" name="email" placeholder="Email"/>
+            </div>
+            <div class="form-group">
+                <input class="btn" type="submit" value="Edytuj">
             </div>
         </form:form>
-        <a href="/admin/institution/all">
-            <button style="margin-right:30px;float:right" type="button" class="btn">Lista instytucji</button>
+        <a href="/admin/all">
+            <button style="margin-right:30px;float:right" type="button" class="btn">Lista administratorów</button>
         </a>
     </div>
 </section>

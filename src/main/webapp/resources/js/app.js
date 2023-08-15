@@ -171,6 +171,17 @@ document.addEventListener("DOMContentLoaded", function() {
   if (form !== null) {
     new FormSteps(form);
   }
+  let deleteLinks = document.querySelectorAll(".delete-link");
+  deleteLinks.forEach(function(link) {
+    link.addEventListener("click", function(e) {
+      e.preventDefault();
+      let confirmed = confirm("Czy na pewno chcesz usunąć?");
+
+      if (confirmed) {
+        window.location.href = this.href;
+      }
+    });
+  });
 
 const formularz = document.querySelector(".donation")
  formularz.addEventListener("change", e => {
@@ -234,7 +245,5 @@ const formularz = document.querySelector(".donation")
    } else {
      liinfo.innerText = "Brak uwag"
    }
-
-
  });
 });
