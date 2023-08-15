@@ -10,7 +10,6 @@ import pl.coderslab.charity.category.CategoryRepository;
 import pl.coderslab.charity.institution.Institution;
 import pl.coderslab.charity.institution.InstitutionRepository;
 import pl.coderslab.charity.user.CurrentUser;
-import pl.coderslab.charity.user.User;
 import pl.coderslab.charity.user.UserRepository;
 
 

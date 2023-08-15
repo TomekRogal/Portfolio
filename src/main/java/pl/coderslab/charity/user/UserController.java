@@ -5,13 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.charity.email.MailService;
 import pl.coderslab.charity.role.Role;
 import pl.coderslab.charity.role.RoleRepository;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @SessionAttributes("loggedUser")
@@ -20,12 +19,16 @@ public class UserController {
     private final UserService userService;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final MailService mailService;
 
 
-    public UserController(UserService userService, UserRepository userRepository, RoleRepository roleRepository) {
+
+    public UserController(UserService userService, UserRepository userRepository, RoleRepository roleRepository, MailService mailService) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+
+        this.mailService = mailService;
     }
 
     @GetMapping("/login")
@@ -155,5 +158,9 @@ public class UserController {
         }
         return "redirect:/admin/user/all";
     }
-
+    @RequestMapping("/send")
+    public String send() throws MessagingException {
+        mailService.sendMail("tomekrogalski@onet.pl","123","siema",true);
+        return "redirect:/admin";
+    }
 }
