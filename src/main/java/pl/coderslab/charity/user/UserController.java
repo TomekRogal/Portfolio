@@ -5,9 +5,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.charity.role.Role;
 import pl.coderslab.charity.role.RoleRepository;
 
 import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @SessionAttributes("loggedUser")
 @Controller
 public class UserController {
@@ -109,7 +115,7 @@ public class UserController {
         userRepository.save(user);
         return "redirect:/admin/user/all";
     }
-    @RequestMapping("/admin//user/delete/{id}")
+    @RequestMapping("/admin/user/delete/{id}")
     public String deleteUser(@PathVariable Long id, Model model) {
         try {
             userRepository.deleteById(id);
@@ -119,6 +125,35 @@ public class UserController {
         }
         return "forward:/admin/user/all";
     }
-
+    @RequestMapping("/admin/user/disable/{id}")
+    public String disableUser(@PathVariable Long id) {
+        if (userRepository.findById(id).isPresent()) {
+            User user = userRepository.findById(id).get();
+            user.setEnabled(0);
+            userRepository.save(user);
+        }
+        return "redirect:/admin/user/all";
+    }
+    @RequestMapping("/admin/user/enable/{id}")
+    public String enableUser(@PathVariable Long id) {
+        if (userRepository.findById(id).isPresent()) {
+            User user = userRepository.findById(id).get();
+            user.setEnabled(1);
+            userRepository.save(user);
+        }
+        return "redirect:/admin/user/all";
+    }
+    @RequestMapping("/admin/add/{id}")
+    public String addAdmin(@PathVariable Long id) {
+        if (userRepository.findById(id).isPresent()) {
+            User user = userRepository.findById(id).get();
+            Set<Role> roles = user.getRoles();
+            Role roleAdmin = roleRepository.findByName("ROLE_ADMIN");
+            roles.add(roleAdmin);
+            user.setRoles(roles);
+            userRepository.save(user);
+        }
+        return "redirect:/admin/user/all";
+    }
 
 }

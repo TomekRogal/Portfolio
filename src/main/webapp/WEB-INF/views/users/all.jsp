@@ -25,6 +25,7 @@
                 <th>Imię</th>
                 <th>Nazwisko</th>
                 <th>Email</th>
+                <th>Aktywny</th>
                 <th>Akcje</th>
             </tr>
             </thead>
@@ -35,6 +36,12 @@
                     <td>${user.firstName}</td>
                     <td>${user.lastName}</td>
                     <td>${user.email}</td>
+                    <c:if test="${user.enabled == 1}">
+                        <td>TAK</td>
+                    </c:if>
+                    <c:if test="${user.enabled == 0}">
+                        <td>NIE</td>
+                    </c:if>
                     <td>
                         <a href="/admin/user/edit/${user.id}">
                             <button type="button" class="btn btn--small">Edytuj</button>
@@ -42,8 +49,18 @@
                         <a href="/admin/user/delete/${user.id}" class="delete-link">
                             <button type="button" class="btn btn--small">Usuń</button>
                         </a>
-                        <a href="/admin/user/disable/${user.id}" class="delete-link">
+                        <c:if test="${user.enabled == 1}">
+                        <a href="/admin/user/disable/${user.id}">
                             <button type="button" class="btn btn--small">Zablokuj</button>
+                               </a>
+                        </c:if>
+                        <c:if test="${user.enabled == 0}">
+                            <a href="/admin/user/enable/${user.id}">
+                            <button type="button" class="btn btn--small">Aktywuj</button>
+                               </a>   
+                        </c:if>
+                              <a href="/admin/add/${user.id}">
+                                  <button type="button" class="btn btn--small">Administrator</button>
                         </a>
                     </td>
                 </tr>
