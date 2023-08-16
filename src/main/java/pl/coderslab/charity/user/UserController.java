@@ -7,9 +7,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.email.MailService;
 import pl.coderslab.charity.role.RoleRepository;
+import pl.coderslab.charity.verificationToken.VerificationToken;
+import pl.coderslab.charity.verificationToken.VerificationTokenRepository;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.util.UUID;
 
 
 @SessionAttributes("loggedUser")
@@ -19,15 +22,16 @@ public class UserController {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final MailService mailService;
+    private final VerificationTokenRepository verificationTokenRepository;
 
 
 
-    public UserController(UserService userService, UserRepository userRepository, RoleRepository roleRepository, MailService mailService) {
+    public UserController(UserService userService, UserRepository userRepository, RoleRepository roleRepository, MailService mailService, VerificationTokenRepository verificationTokenRepository) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
-
         this.mailService = mailService;
+        this.verificationTokenRepository = verificationTokenRepository;
     }
 
     @GetMapping("/login")
@@ -40,7 +44,7 @@ public class UserController {
         return "register";
     }
     @PostMapping("/register")
-    public String addProcess(@RequestParam String password2, @Valid User user, BindingResult bindingResult, Model model) {
+    public String addProcess  (@RequestParam String password2, @Valid User user, BindingResult bindingResult, Model model) throws MessagingException {
         if (bindingResult.hasErrors()) {
             return "register";
         }
@@ -55,9 +59,28 @@ public class UserController {
             model.addAttribute("pass","failed");
             return "register";
         }
+        String token = UUID.randomUUID().toString();
         userService.saveUser(user);
+        VerificationToken userToken = new VerificationToken();
+        userToken.setToken(token);
+        userToken.setUser(user);
+        verificationTokenRepository.save(userToken);
+        mailService.sendMail(user.getEmail(),"Potwierdzenie rejestracji","Link do potwierdzenia rejestracji: " +
+                "<br> http://localhost:8080/registrationConfirm?token=" + token,true);
         return "redirect:/login";
     }
+    @GetMapping("/registrationConfirm")
+    public String registerConfirm(Model model,@RequestParam String token) {
+        VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
+        if(verificationToken != null){
+            User user = verificationToken.getUser();
+            user.setEnabled(1);
+            userRepository.save(user);
+            verificationTokenRepository.delete(verificationToken);
+        }
+        return "redirect:/login";
+    }
+
     @GetMapping("/admin")
     public String admin(@AuthenticationPrincipal CurrentUser customUser, Model model){
         if (customUser != null) {
@@ -152,9 +175,5 @@ public class UserController {
         }
         return "redirect:/admin/user/all";
     }
-    @RequestMapping("/send")
-    public String send() throws MessagingException {
-        mailService.sendMail("tomekrogalski@onet.pl","123","siema",true);
-        return "redirect:/admin";
-    }
+
 }
