@@ -26,7 +26,9 @@
                 <th>Nazwisko</th>
                 <th>Email</th>
                 <th>Aktywny</th>
+                <th>Zablokowany</th>
                 <th>Akcje</th>
+                <th>Administrator</th>
             </tr>
             </thead>
             <tbody>
@@ -42,6 +44,12 @@
                     <c:if test="${user.enabled == 0}">
                         <td>NIE</td>
                     </c:if>
+                    <c:if test="${user.nonLocked == false}">
+                        <td>TAK</td>
+                    </c:if>
+                    <c:if test="${user.nonLocked == true}">
+                        <td>NIE</td>
+                    </c:if>
                     <td>
                         <a href="/admin/user/edit/${user.id}">
                             <button type="button" class="btn btn--small">Edytuj</button>
@@ -49,18 +57,20 @@
                         <a href="/admin/user/delete/${user.id}" class="delete-link">
                             <button type="button" class="btn btn--small">Usuń</button>
                         </a>
-                        <c:if test="${user.enabled == 1}">
+                        <c:if test="${user.nonLocked == true}">
                         <a href="/admin/user/disable/${user.id}">
                             <button type="button" class="btn btn--small">Zablokuj</button>
                                </a>
                         </c:if>
-                        <c:if test="${user.enabled == 0}">
+                        <c:if test="${user.nonLocked == false}">
                             <a href="/admin/user/enable/${user.id}">
-                            <button type="button" class="btn btn--small">Aktywuj</button>
+                            <button type="button" class="btn btn--small">Odblokuj</button>
                                </a>   
                         </c:if>
+                        </td>
+                    <td>
                               <a href="/admin/add/${user.id}">
-                                  <button type="button" class="btn btn--small">Administrator</button>
+                                  <button type="button" class="btn btn--small">Dodaj</button>
                         </a>
                     </td>
                 </tr>

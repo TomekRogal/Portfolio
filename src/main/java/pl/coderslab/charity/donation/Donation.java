@@ -31,8 +31,8 @@ public class Donation {
     private LocalDate pickUpDate;
     private LocalTime pickUpTime;
     private String pickUpComment;
-@Override
-    public String toString() {
+
+    public String info() {
         return "<b>Przekazujesz:</b> <br>" +
                 "Ilość worków: " + quantity +
                 "<br> z kategorii: " + categories.stream().map(e->e.getName()).collect(Collectors.joining(", ")) +

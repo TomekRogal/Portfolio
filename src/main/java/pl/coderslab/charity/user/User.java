@@ -1,14 +1,17 @@
 package pl.coderslab.charity.user;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import pl.coderslab.charity.role.Role;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
-public class User {
+public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,6 +25,10 @@ public class User {
     private String password;
     @Column(nullable = false)
     private int enabled;
+
+
+    @Column(nullable = false)
+    private boolean nonLocked;
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -30,7 +37,12 @@ public class User {
     private String email;
     private String firstName;
     private String lastName;
-
+    public void setNonLocked(boolean nonLocked) {
+        this.nonLocked = nonLocked;
+    }
+    public boolean isNonLocked() {
+        return nonLocked;
+    }
     public String getEmail() {
         return email;
     }

@@ -62,7 +62,7 @@ public class DonationController {
         }
         donationRepository.save(donation);
         try {
-            mailService.sendMail(customUser.getUser().getEmail(),"Podsumowanie darowizny",donation.toString(),true);
+            mailService.sendMail(customUser.getUser().getEmail(),"Podsumowanie darowizny",donation.info(),true);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }

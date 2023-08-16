@@ -13,6 +13,7 @@ import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.util.Set;
 
+
 @SessionAttributes("loggedUser")
 @Controller
 public class UserController {
@@ -88,14 +89,13 @@ public class UserController {
         return "redirect:/admin/all";
     }
     @RequestMapping("/admin/delete/{id}")
-    public String delete(@PathVariable Long id, Model model) {
-        try {
-            userRepository.deleteById(id);
-            return "redirect:/admin/all";
-        } catch (Exception e) {
-            model.addAttribute("delete", "failed");
+    public String delete(@PathVariable Long id) {
+        if (userRepository.findById(id).isPresent()) {
+            User user = userRepository.findById(id).get();
+            userService.removeAdmin(user);
         }
-        return "forward:/admin/all";
+            return "redirect:/admin/all";
+
     }
     @GetMapping("/admin/user/all")
     public String userall(Model model){
@@ -132,7 +132,7 @@ public class UserController {
     public String disableUser(@PathVariable Long id) {
         if (userRepository.findById(id).isPresent()) {
             User user = userRepository.findById(id).get();
-            user.setEnabled(0);
+            user.setNonLocked(false);
             userRepository.save(user);
         }
         return "redirect:/admin/user/all";
@@ -141,7 +141,7 @@ public class UserController {
     public String enableUser(@PathVariable Long id) {
         if (userRepository.findById(id).isPresent()) {
             User user = userRepository.findById(id).get();
-            user.setEnabled(1);
+            user.setNonLocked(true);
             userRepository.save(user);
         }
         return "redirect:/admin/user/all";
@@ -150,11 +150,7 @@ public class UserController {
     public String addAdmin(@PathVariable Long id) {
         if (userRepository.findById(id).isPresent()) {
             User user = userRepository.findById(id).get();
-            Set<Role> roles = user.getRoles();
-            Role roleAdmin = roleRepository.findByName("ROLE_ADMIN");
-            roles.add(roleAdmin);
-            user.setRoles(roles);
-            userRepository.save(user);
+            userService.addAdmin(user);
         }
         return "redirect:/admin/user/all";
     }
