@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class Donation {
@@ -30,6 +31,21 @@ public class Donation {
     private LocalDate pickUpDate;
     private LocalTime pickUpTime;
     private String pickUpComment;
+@Override
+    public String toString() {
+        return "<b>Przekazujesz:</b> <br>" +
+                "Ilość worków: " + quantity +
+                "<br> z kategorii: " + categories.stream().map(e->e.getName()).collect(Collectors.joining(", ")) +
+                "<br> fundacji: " + institution.getName() +
+                "<br><br> <b>Adres dostawy:</b>"+
+                "<br> Ulica: " + street  +
+                "<br> Miasto: " + city  +
+                "<br> Kod pocztowy: " + ZipCode  +
+                "<br> Numer telefonu: " + phoneNumber  +
+                "<br> Data odbioru: " + pickUpDate +
+                "<br> Czas odbioru: " + pickUpTime +
+                "<br> Uwagi: " + pickUpComment;
+    }
 
     public User getUser() {
         return user;

@@ -7,12 +7,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.category.Category;
 import pl.coderslab.charity.category.CategoryRepository;
+import pl.coderslab.charity.email.MailService;
 import pl.coderslab.charity.institution.Institution;
 import pl.coderslab.charity.institution.InstitutionRepository;
 import pl.coderslab.charity.user.CurrentUser;
 import pl.coderslab.charity.user.UserRepository;
 
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.util.List;
 @SessionAttributes("loggedUser")
@@ -22,14 +24,17 @@ public class DonationController {
     private final InstitutionRepository institutionRepository;
     private final DonationRepository donationRepository;
     private final UserRepository userRepository;
+    private final MailService mailService;
 
 
 
-    public DonationController(CategoryRepository categoryRepository, InstitutionRepository institutionRepository, DonationRepository donationRepository, UserRepository userRepository) {
+
+    public DonationController(CategoryRepository categoryRepository, InstitutionRepository institutionRepository, DonationRepository donationRepository, UserRepository userRepository, MailService mailService) {
         this.categoryRepository = categoryRepository;
         this.institutionRepository = institutionRepository;
         this.donationRepository = donationRepository;
         this.userRepository = userRepository;
+        this.mailService = mailService;
     }
     @ModelAttribute("categories")
     public List<Category> categories() {
@@ -40,7 +45,7 @@ public class DonationController {
         return institutionRepository.findAll();
     }
 
-    @RequestMapping("/donation")
+    @GetMapping("/donation")
     public String add(@AuthenticationPrincipal CurrentUser customUser, Model model) {
         if (customUser != null) {
             model.addAttribute("loggedUser", userRepository.findById(customUser.getUser().getId()).get());
@@ -51,11 +56,16 @@ public class DonationController {
         return "form";
     }
     @PostMapping("/donation")
-    public String addProcess(@Valid Donation donation, BindingResult bindingResult) {
+    public String addProcess(@AuthenticationPrincipal CurrentUser customUser, @Valid Donation donation, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "form";
         }
         donationRepository.save(donation);
+        try {
+            mailService.sendMail(customUser.getUser().getEmail(),"Podsumowanie darowizny",donation.toString(),true);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
         return "confirmation";
     }
 
