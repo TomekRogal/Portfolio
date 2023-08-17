@@ -24,10 +24,16 @@
         <div class="form-group">
             <form:input path="email"  type="email" name="email" placeholder="Email" />
             <form:input path="username"  style="float: right" type="text" name="username" placeholder="Nazwa użytkownika" />
+            <c:if test='${register.equals("failed")}'>
+                <p class="error"> Użytkownik o podanej nazwie lub emailu już istnieje</p>
+            </c:if>
         </div>
         <div class="form-group">
             <form:input path="password" type="password" name="password" placeholder="Hasło" />
             <input style="float: right" type="password" name="password2" placeholder="Powtórz hasło" />
+            <c:if test='${pass.equals("failed")}'>
+                <p class="error"> Hasła muszą być takie same</p>
+            </c:if>
         </div>
         <div class="form-group">
             <form:input path="firstName" type="text" name="firstName" placeholder="Imię" />

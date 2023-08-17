@@ -24,7 +24,7 @@
             <a href="/" class="btn btn--small btn--without-border reset-password">Przypomnij hasło</a>
         </div>
         <c:if test="${param.error != null}">
-           <div style="color: red"> ${SPRING_SECURITY_LAST_EXCEPTION.message} </div>
+           <div class="error"> ${SPRING_SECURITY_LAST_EXCEPTION.message} </div>
         </c:if>
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         <div class="form-group form-group--buttons">

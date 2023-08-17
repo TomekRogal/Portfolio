@@ -1864,3 +1864,7 @@ table td {
   border-bottom: 1px solid #ccc;
   font-weight: bold;
 }
+.error {
+  color:red;
+  font-size: medium;
+}
