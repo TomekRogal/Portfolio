@@ -25,16 +25,18 @@ public class DonationController {
     private final DonationRepository donationRepository;
     private final UserRepository userRepository;
     private final MailService mailService;
+    private final DonationService donationService;
 
 
 
 
-    public DonationController(CategoryRepository categoryRepository, InstitutionRepository institutionRepository, DonationRepository donationRepository, UserRepository userRepository, MailService mailService) {
+    public DonationController(CategoryRepository categoryRepository, InstitutionRepository institutionRepository, DonationRepository donationRepository, UserRepository userRepository, MailService mailService, DonationService donationService) {
         this.categoryRepository = categoryRepository;
         this.institutionRepository = institutionRepository;
         this.donationRepository = donationRepository;
         this.userRepository = userRepository;
         this.mailService = mailService;
+        this.donationService = donationService;
     }
     @ModelAttribute("categories")
     public List<Category> categories() {
@@ -62,7 +64,7 @@ public class DonationController {
         }
         donationRepository.save(donation);
         try {
-            mailService.sendMail(customUser.getUser().getEmail(),"Podsumowanie darowizny",donation.info(),true);
+            mailService.sendMail(customUser.getUser().getEmail(),"Podsumowanie darowizny",donationService.donationInfo(donation),true);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }

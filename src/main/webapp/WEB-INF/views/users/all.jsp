@@ -78,6 +78,9 @@
             </tbody>
         </table>
     </div>
+    <c:if test='${delete.equals("failed")}'>
+        <p class="error"> Nie można usunąć użytkownika</p>
+    </c:if>
 </section>
 <script src="<c:url value="/resources/js/app.js"/>"></script>
 </body>

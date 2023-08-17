@@ -43,6 +43,9 @@
             </c:forEach>
             </tbody>
         </table>
+        <c:if test='${delete.equals("failed")}'>
+            <p class="error"> Nie można usunąć instytucji</p>
+        </c:if>
         <a href="/admin/institution/add">
         <button style="margin-right:30px;float:right" type="button" class="btn">Dodaj</button>
         </a>
