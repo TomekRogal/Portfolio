@@ -1,13 +1,12 @@
 package pl.coderslab.charity.user;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import pl.coderslab.charity.role.Role;
 
+import pl.coderslab.charity.password.ValidPassword;
+import pl.coderslab.charity.role.Role;
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.Collection;
 import java.util.Set;
 
 @Entity
@@ -20,7 +19,7 @@ public class User{
     @Column(nullable = false, unique = true, length = 60)
     private String username;
     @Column(nullable = false)
-    @Size(max = 200, message = "Zbyt długie hasło")
+    @ValidPassword(message = "Hasło musi mieć od 8 do 30 znaków i zawierać wielką literę, małą literę, cyfrę i znak specjalny")
     @NotBlank(message = "Hasło nie może być puste")
     private String password;
     @Column(nullable = false)
@@ -33,9 +32,13 @@ public class User{
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
+    @NotBlank(message = "Email nie może być pusty")
+    @Email(message = "Nie poprawny email")
     @Column(nullable = false, unique = true, length = 60)
     private String email;
+    @NotBlank(message = "Imię nie może być puste")
     private String firstName;
+    @NotBlank(message = "Nazwisko nie może być puste")
     private String lastName;
     public void setNonLocked(boolean nonLocked) {
         this.nonLocked = nonLocked;

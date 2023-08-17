@@ -24,6 +24,8 @@
         <div class="form-group">
             <form:input path="email"  type="email" name="email" placeholder="Email" />
             <form:input path="username"  style="float: right" type="text" name="username" placeholder="Nazwa użytkownika" />
+            <br><form:errors cssClass="error" path="email"/>
+            <br><form:errors cssClass="error" path="username"/>
             <c:if test='${register.equals("failed")}'>
                 <p class="error"> Użytkownik o podanej nazwie lub emailu już istnieje</p>
             </c:if>
@@ -31,6 +33,7 @@
         <div class="form-group">
             <form:input path="password" type="password" name="password" placeholder="Hasło" />
             <input style="float: right" type="password" name="password2" placeholder="Powtórz hasło" />
+            <br><form:errors cssClass="error" path="password"/>
             <c:if test='${pass.equals("failed")}'>
                 <p class="error"> Hasła muszą być takie same</p>
             </c:if>
@@ -38,6 +41,8 @@
         <div class="form-group">
             <form:input path="firstName" type="text" name="firstName" placeholder="Imię" />
             <form:input path="lastName"  style="float: right" type="text" name="lastName" placeholder="Nazwisko" />
+            <br><form:errors cssClass="error" path="firstName"/>
+            <br><form:errors cssClass="error" path="lastName"/>
         </div>
         <div class="form-group form-group--buttons">
             <a href="/login" class="btn btn--without-border">Zaloguj się</a>
