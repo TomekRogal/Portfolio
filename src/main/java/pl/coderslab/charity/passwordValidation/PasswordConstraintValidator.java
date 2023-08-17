@@ -1,11 +1,10 @@
-package pl.coderslab.charity.password;
+package pl.coderslab.charity.passwordValidation;
 
 import org.passay.*;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, String> {
 

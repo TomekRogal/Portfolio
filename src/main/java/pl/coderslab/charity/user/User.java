@@ -1,7 +1,7 @@
 package pl.coderslab.charity.user;
 
 
-import pl.coderslab.charity.password.ValidPassword;
+import pl.coderslab.charity.passwordValidation.ValidPassword;
 import pl.coderslab.charity.role.Role;
 import javax.persistence.*;
 import javax.validation.constraints.Email;

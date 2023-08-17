@@ -1,4 +1,4 @@
-package pl.coderslab.charity.password;
+package pl.coderslab.charity.passwordValidation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
