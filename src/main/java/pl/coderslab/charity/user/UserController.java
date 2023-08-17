@@ -44,7 +44,7 @@ public class UserController {
         return "register";
     }
     @PostMapping("/register")
-    public String addProcess  (@RequestParam String password2, @Valid User user, BindingResult bindingResult, Model model) throws MessagingException {
+    public String addProcess  (@RequestParam String password2, @Valid User user, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "register";
         }
@@ -65,8 +65,12 @@ public class UserController {
         userToken.setToken(token);
         userToken.setUser(user);
         verificationTokenRepository.save(userToken);
-        mailService.sendMail(user.getEmail(),"Potwierdzenie rejestracji","Link do potwierdzenia rejestracji: " +
-                "<br> http://localhost:8080/registrationConfirm?token=" + token,true);
+        try {
+            mailService.sendMail(user.getEmail(),"Potwierdzenie rejestracji","Link do potwierdzenia rejestracji: " +
+                    "<br> http://localhost:8080/registrationConfirm?token=" + token,true);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
         return "redirect:/login";
     }
     @GetMapping("/registrationConfirm")
