@@ -16,8 +16,9 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
     @Override
     public boolean isValid(String password, ConstraintValidatorContext context) {
         PasswordValidator validator = new PasswordValidator(Arrays.asList(
-                new LengthRule(8, 30),
+                new LengthRule(8,100),
                 new UppercaseCharacterRule(1),
+                new LowercaseCharacterRule(1),
                 new DigitCharacterRule(1),
                 new SpecialCharacterRule(1),
 //                new NumericalSequenceRule(3,false),
