@@ -109,7 +109,31 @@ public class UserController {
         }
         return "/password/confirm";
     }
-
+    @GetMapping("/passwordReset")
+    public String resetPassword(@RequestParam String token, Model model){
+        PasswordToken passwordToken = passwordTokenRepository.findByToken(token);
+        if(passwordToken==null){
+            model.addAttribute("token","failed");
+            return "redirect:/login";
+        }
+        User user = passwordToken.getUser();
+        passwordTokenRepository.delete(passwordTokenRepository.findByToken(token));
+        user.setPassword(null);
+        model.addAttribute("user",user);
+        return "/password/reset";
+    }
+    @PostMapping ("/passwordReset")
+    public String resetPasswordConfirm( @RequestParam String password2, @Valid User user, BindingResult bindingResult, Model model){
+        if (bindingResult.hasErrors()) {
+            return "/password/reset";
+        }
+        if(!user.getPassword().equals(password2)){
+            model.addAttribute("pass","failed");
+            return "/password/reset";
+        }
+        userService.changePassword(user);
+        return "/password/resetConfirm";
+    }
 
 
 }

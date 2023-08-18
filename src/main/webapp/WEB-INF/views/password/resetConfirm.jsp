@@ -12,15 +12,17 @@
     <link rel="stylesheet" href="<c:url value="/resources/css/style.css"/>"/>
 </head>
 <body>
-<header class="header--form-page">
     <jsp:include page="/resources/sharedviews/header.jsp"/>
-
-    <div class="slogan container container--90">
+    <section class="login-page">
+    <div>
         <h2>
-            Link do zmiany hasła został przesłany na email.
+            Pomyślnie zmieniono hasło. <br> <a href="/login" class="btn btn--without-border" style="margin-top: 15px">Zaloguj się</a>
         </h2>
     </div>
-</header>
+    <div>
+
+    </div>
+    </section>
 <jsp:include page="/resources/sharedviews/footer.jsp"/>
 <script src="<c:url value="/resources/js/app.js"/>"></script>
 </body>
