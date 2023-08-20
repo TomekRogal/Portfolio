@@ -21,7 +21,7 @@ public class SecurityConfig {
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/donation/**").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/exercises/**").hasRole("ADMIN")
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 .and().formLogin().loginPage("/login").usernameParameter("email").successHandler(new CustomAuthenticationSuccessHandler())
                 .and().logout().logoutSuccessUrl("/")
                 .permitAll()
