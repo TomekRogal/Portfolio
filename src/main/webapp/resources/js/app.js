@@ -171,4 +171,79 @@ document.addEventListener("DOMContentLoaded", function() {
   if (form !== null) {
     new FormSteps(form);
   }
+  let deleteLinks = document.querySelectorAll(".delete-link");
+  deleteLinks.forEach(function(link) {
+    link.addEventListener("click", function(e) {
+      e.preventDefault();
+      let confirmed = confirm("Czy na pewno chcesz usunąć?");
+
+      if (confirmed) {
+        window.location.href = this.href;
+      }
+    });
+  });
+
+const formularz = document.querySelector(".donation")
+ formularz.addEventListener("change", e => {
+   e.preventDefault();
+   const sum = document.querySelectorAll(".summary--text")
+   const num = document.getElementById("bags")
+   const cat = document.querySelectorAll(".cat")
+   if(num.value == 1){
+     sum[0].innerText = num.value + " worek z kategorii:"
+   }
+   if(num.value >1 && num.value <5){
+     sum[0].innerText = num.value + " worki z kategorii:"
+   }
+   if(num.value >= 5){
+     sum[0].innerText = num.value + " worków z kategorii:"
+   }
+   let counter = 0;
+   cat.forEach(el => {
+     if(el.checked){
+       if(counter>0){
+         sum[0].innerText += ","
+       }
+       sum[0].innerText += " " + el.getAttribute("id")
+       counter++
+     }
+   })
+   const fun = document.querySelectorAll(".inst")
+   fun.forEach(el => {
+     if(el.checked){
+       sum[1].innerText = "Dla fundacji \"" + el.getAttribute("id")+ "\""}
+   })
+
+   const address = document.querySelector("#address")
+   const liadd = document.querySelector(".street")
+   liadd.innerText = address.value
+
+   const city = document.querySelector("#city")
+   const licity = document.querySelector(".city")
+   licity.innerText = city.value
+
+   const zip = document.querySelector("#zipCode")
+   const lizip = document.querySelector(".code")
+   lizip.innerText = zip.value
+
+   const phone = document.querySelector("#phone")
+   const liphone = document.querySelector(".phone")
+   liphone.innerText = phone.value
+
+   const date = document.querySelector("#date")
+   const lidate = document.querySelector(".date")
+   lidate.innerText = date.value
+
+   const time = document.querySelector("#time")
+   const litime = document.querySelector(".time")
+   litime.innerText = time.value
+
+   const info = document.querySelector("#info")
+   const liinfo = document.querySelector(".comment")
+   if(info.value != ""){
+     liinfo.innerText = info.value
+   } else {
+     liinfo.innerText = "Brak uwag"
+   }
+ });
 });
