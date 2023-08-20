@@ -56,10 +56,15 @@ public class AdminController {
         return "redirect:/admin/all";
     }
     @RequestMapping("/admin/delete/{id}")
-    public String delete(@PathVariable Long id) {
+    public String delete(@PathVariable Long id, @AuthenticationPrincipal CurrentUser customUser, Model model) {
         if (userRepository.findById(id).isPresent()) {
-            User user = userRepository.findById(id).get();
-            userService.removeAdmin(user);
+            if(customUser.getUser().getId() != userRepository.findById(id).get().getId()){
+                User user = userRepository.findById(id).get();
+                userService.removeAdmin(user);
+            } else {
+                model.addAttribute("delete", "failed");
+                return "forward:/admin/all";
+            }
         }
         return "redirect:/admin/all";
 

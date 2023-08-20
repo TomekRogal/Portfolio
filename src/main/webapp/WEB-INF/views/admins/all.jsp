@@ -47,6 +47,9 @@
             </c:forEach>
             </tbody>
         </table>
+        <c:if test='${delete.equals("failed")}'>
+            <p class="error"> Nie można usunąć administratora</p>
+        </c:if>
         <a href="/admin/add">
             <button style="margin-right:30px;float:right" type="button" class="btn">Dodaj</button>
         </a>
