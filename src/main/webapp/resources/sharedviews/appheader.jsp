@@ -1,7 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
     <nav class="container container--70">
+        <sec:authorize access="isAuthenticated()">
         <ul class="nav--actions">
             <li class="logged-user">
                 Witaj ${loggedUser.username}
@@ -19,7 +21,7 @@
                 </ul>
             </li>
         </ul>
-
+</sec:authorize>
         <ul>
             <li><a href="/" class="btn btn--without-border active">Start</a></li>
             <li><a href="/#steps" class="btn btn--without-border">O co chodzi?</a></li>

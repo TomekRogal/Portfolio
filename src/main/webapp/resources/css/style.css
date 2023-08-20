@@ -1868,3 +1868,8 @@ table td {
   color:red;
   font-size: medium;
 }
+.obrazek{
+  text-align: center;
+  width: 150px;
+  height: 150px;
+}
