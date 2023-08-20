@@ -58,7 +58,7 @@
                             <button type="button" class="btn btn--small">Usuń</button>
                         </a>
                         <c:if test="${user.nonLocked == true}">
-                        <a href="/admin/user/disable/${user.id}">
+                        <a href="/admin/user/disable/${user.id}" class="lock-link">
                             <button type="button" class="btn btn--small">Zablokuj</button>
                                </a>
                         </c:if>
@@ -68,11 +68,22 @@
                                </a>   
                         </c:if>
                         </td>
-                    <td>
-                              <a href="/admin/add/${user.id}">
-                                  <button type="button" class="btn btn--small">Dodaj</button>
-                        </a>
-                    </td>
+                    <c:set var = "a" value = "0"/>
+                    <c:forEach items="${user.roles}" var="role">
+                        <c:if test="${role.getName().equals('ROLE_ADMIN')}">
+                            <c:set var = "a" value = "1"/>
+                        </c:if>
+                    </c:forEach>
+                    <c:if test="${a==0}">
+                        <td>
+                            <a href="/admin/add/${user.id}" class="add-link">
+                                <button type="button" class="btn btn--small">Dodaj</button>
+                            </a>
+                        </td>
+                    </c:if>
+                    <c:if test="${a==1}">
+                        <td>TAK</td>
+                    </c:if>
                 </tr>
             </c:forEach>
             </tbody>
@@ -80,6 +91,9 @@
     </div>
     <c:if test='${delete.equals("failed")}'>
         <p class="error"> Nie można usunąć użytkownika</p>
+    </c:if>
+    <c:if test='${lock.equals("failed")}'>
+        <p class="error"> Nie można zablokować użytkownika</p>
     </c:if>
 </section>
 <script src="<c:url value="/resources/js/app.js"/>"></script>

@@ -10,6 +10,10 @@
                 <ul class="dropdown">
                     <li><a href="#">Profil</a></li>
                     <li><a href="#">Moje zbiórki</a></li>
+                    <li><a href="/donation">Aplikacja</a></li>
+            <sec:authorize access="hasRole('ADMIN')">
+                <li><a href="/admin">Panel admin</a></li>
+            </sec:authorize>
                     <li>
                         <a>
                             <form action="<c:url value="/logout"/>" method="post">
