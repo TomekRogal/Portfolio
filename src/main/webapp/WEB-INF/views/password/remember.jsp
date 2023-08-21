@@ -27,7 +27,7 @@
         <button class="btn" type="submit">Wyślij</button>
     </div>
         <c:if test='${email.equals("failed")}'>
-            <p class="error"> Nie ma użytkownika o podanym adresie email</p>
+            <p class="error"> Użytkownik o podanym adresie email nie istnieje.</p>
         </c:if>
     </form:form>
 </section>
