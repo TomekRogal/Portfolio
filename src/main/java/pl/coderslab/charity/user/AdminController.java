@@ -101,11 +101,16 @@ public class AdminController {
         return "forward:/admin/user/all";
     }
     @RequestMapping("/admin/user/disable/{id}")
-    public String disableUser(@PathVariable Long id) {
+    public String disableUser(@PathVariable Long id, @AuthenticationPrincipal CurrentUser customUser, Model model) {
         if (userRepository.findById(id).isPresent()) {
-            User user = userRepository.findById(id).get();
-            user.setNonLocked(false);
-            userRepository.save(user);
+            if(!customUser.getUser().getId().equals(userRepository.findById(id).get().getId())) {
+                User user = userRepository.findById(id).get();
+                user.setNonLocked(false);
+                userRepository.save(user);
+            } else {
+                model.addAttribute("lock", "failed");
+                return "forward:/admin/user/all";
+            }
         }
         return "redirect:/admin/user/all";
     }

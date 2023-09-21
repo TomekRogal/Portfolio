@@ -182,6 +182,26 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     });
   });
+  let addLinks = document.querySelectorAll(".add-link");
+  addLinks.forEach(function(link) {
+    link.addEventListener("click", function(e) {
+      e.preventDefault();
+      let confirmed = confirm("Czy na pewno chcesz dodać administratora?");
+      if (confirmed) {
+        window.location.href = this.href;
+      }
+    });
+  });
+  let lockLinks = document.querySelectorAll(".lock-link");
+  lockLinks.forEach(function(link) {
+    link.addEventListener("click", function(e) {
+      e.preventDefault();
+      let confirmed = confirm("Czy na pewno chcesz zablokować użytkownika?");
+      if (confirmed) {
+        window.location.href = this.href;
+      }
+    });
+  });
 
 const formularz = document.querySelector(".donation")
  formularz.addEventListener("change", e => {

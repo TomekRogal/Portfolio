@@ -1,5 +1,7 @@
 package pl.coderslab.charity.passwordToken;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import pl.coderslab.charity.user.User;
 
 import javax.persistence.*;
@@ -14,6 +16,7 @@ public class PasswordToken {
     private String token;
 
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
