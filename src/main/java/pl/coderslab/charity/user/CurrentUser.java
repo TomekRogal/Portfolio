@@ -12,7 +12,6 @@ public class CurrentUser extends User {
                        Collection<? extends GrantedAuthority> authorities,
                        pl.coderslab.charity.user.User user) {
         super(email,password,enabled,true,true,nonLocked,authorities);
-//        super(email, password, authorities);
         this.user = user;
     }
 

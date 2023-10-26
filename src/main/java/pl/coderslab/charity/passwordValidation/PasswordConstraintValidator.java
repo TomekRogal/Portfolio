@@ -20,19 +20,13 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
                 new LowercaseCharacterRule(1),
                 new DigitCharacterRule(1),
                 new SpecialCharacterRule(1),
-//                new NumericalSequenceRule(3,false),
-//                new AlphabeticalSequenceRule(3,false),
-//                new QwertySequenceRule(3,false),
                 new WhitespaceRule()));
 
         RuleResult result = validator.validate(new PasswordData(password));
         if (result.isValid()) {
             return true;
         }
-//        context.disableDefaultConstraintViolation();
-//        context.buildConstraintViolationWithTemplate(
-//                        (validator.getMessages(result)).stream().collect(Collectors.joining("\n")))
-//                .addConstraintViolation();
+
         return false;
     }
 }
