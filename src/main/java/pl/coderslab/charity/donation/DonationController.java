@@ -70,5 +70,13 @@ public class DonationController {
         }
         return "confirmation";
     }
+    @GetMapping("/donation/all")
+    public String all(@AuthenticationPrincipal CurrentUser customUser, Model model) {
+        if (customUser != null) {
+            model.addAttribute("loggedUser", userRepository.findById(customUser.getUser().getId()).get());
+        }
+        model.addAttribute("donations",donationRepository.findByUser(customUser.getUser()));
+        return "donation/all";
+    }
 
 }
