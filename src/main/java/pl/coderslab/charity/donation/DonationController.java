@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 import pl.coderslab.charity.category.Category;
 import pl.coderslab.charity.category.CategoryRepository;
 import pl.coderslab.charity.email.MailService;
@@ -30,6 +32,7 @@ public class DonationController {
 
 
 
+
     public DonationController(CategoryRepository categoryRepository, InstitutionRepository institutionRepository, DonationRepository donationRepository, UserRepository userRepository, MailService mailService, DonationService donationService) {
         this.categoryRepository = categoryRepository;
         this.institutionRepository = institutionRepository;
@@ -37,6 +40,7 @@ public class DonationController {
         this.userRepository = userRepository;
         this.mailService = mailService;
         this.donationService = donationService;
+
     }
     @ModelAttribute("categories")
     public List<Category> categories() {
@@ -63,7 +67,12 @@ public class DonationController {
             return "form";
         }
         donationRepository.save(donation);
+//        Context contex = new Context();
+//        contex.setVariable("name","aaaa");
+//        contex.setVariable("url","aaaa");
+//        String text = templateEngine.process("emailTemplate",contex);
         try {
+//            mailService.sendMail(customUser.getUser().getEmail(),"Podsumowanie darowizny",text,true);
             mailService.sendMail(customUser.getUser().getEmail(),"Podsumowanie darowizny",donationService.donationInfo(donation),true);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
