@@ -36,7 +36,7 @@ public class DonationController {
     private final TemplateEngine templateEngine;
 
 
-    public DonationController(CategoryRepository categoryRepository, InstitutionRepository institutionRepository, DonationRepository donationRepository, UserRepository userRepository, MailService mailService, DonationService donationService, UserRepository userRepository1, TemplateEngine templateEngine) {
+    public DonationController(CategoryRepository categoryRepository, InstitutionRepository institutionRepository, DonationRepository donationRepository, MailService mailService, UserRepository userRepository1, TemplateEngine templateEngine) {
         this.categoryRepository = categoryRepository;
         this.institutionRepository = institutionRepository;
         this.donationRepository = donationRepository;

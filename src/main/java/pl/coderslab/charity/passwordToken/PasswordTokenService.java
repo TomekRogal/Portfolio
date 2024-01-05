@@ -2,7 +2,7 @@ package pl.coderslab.charity.passwordToken;
 
 import org.springframework.stereotype.Service;
 import pl.coderslab.charity.user.User;
-import pl.coderslab.charity.verificationToken.VerificationToken;
+
 
 import java.util.UUID;
 

@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 import pl.coderslab.charity.email.MailService;
 
 import pl.coderslab.charity.passwordToken.PasswordToken;
@@ -29,8 +31,8 @@ public class UserController {
     private final PasswordTokenRepository passwordTokenRepository;
     private final VerificationTokenService verificationTokenService;
     private final PasswordTokenService passwordTokenService;
-
-    public UserController(UserService userService, UserRepository userRepository, MailService mailService, VerificationTokenRepository verificationTokenRepository, PasswordTokenRepository passwordTokenRepository, VerificationTokenService verificationTokenService, PasswordTokenService passwordTokenService) {
+    private final TemplateEngine templateEngine;
+    public UserController(UserService userService, UserRepository userRepository, MailService mailService, VerificationTokenRepository verificationTokenRepository, PasswordTokenRepository passwordTokenRepository, VerificationTokenService verificationTokenService, PasswordTokenService passwordTokenService, TemplateEngine templateEngine) {
         this.userService = userService;
         this.userRepository = userRepository;
 
@@ -39,6 +41,7 @@ public class UserController {
         this.passwordTokenRepository = passwordTokenRepository;
         this.verificationTokenService = verificationTokenService;
         this.passwordTokenService = passwordTokenService;
+        this.templateEngine = templateEngine;
     }
 
     @GetMapping("/login")
@@ -68,9 +71,12 @@ public class UserController {
         }
         userService.saveUser(user);
         String token = verificationTokenService.generateTokenForUser(user);
+        String url = "http://localhost:8080/registrationConfirm?token=" + token;
+        Context context = new Context();
+        context.setVariable("url", url);
+        String text = templateEngine.process("tokenTemplate", context);
         try {
-            mailService.sendMail(user.getEmail(),"Potwierdzenie rejestracji","Link do potwierdzenia rejestracji: " +
-                    "<br> http://localhost:8080/registrationConfirm?token=" + token,true);
+            mailService.sendMail(user.getEmail(),"Potwierdzenie rejestracji",text,true);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
@@ -99,9 +105,12 @@ public class UserController {
             return "/password/remember";
         }
         String token = passwordTokenService.generateTokenForUser(user);
+        String url = "http://localhost:8080/passwordReset?token=" + token;
+        Context context = new Context();
+        context.setVariable("url", url);
+        String text = templateEngine.process("passwordTemplate", context);
         try {
-            mailService.sendMail(user.getEmail(),"Reset hasła","Link do zmiany hasła: " +
-                    "<br> http://localhost:8080/passwordReset?token=" + token,true);
+            mailService.sendMail(user.getEmail(),"Reset hasła",text,true);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
