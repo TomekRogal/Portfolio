@@ -21,17 +21,18 @@
         <table id="tabledonation" class="table" >
             <thead>
             <tr>
-                <th>Id</th>
+<%--                <th>Id</th>--%>
                 <th>Nazwa Instytucji</th>
                 <th>Ilość worków</th>
                 <th>Kategorie</th>
-                <th>Akcje</th>
+                <th>Data oddania</th>
+<%--                <th>Akcje</th>--%>
             </tr>
             </thead>
             <tbody>
             <c:forEach items="${donations}" var="donation">
                 <tr>
-                    <td>${donation.id}</td>
+<%--                    <td>${donation.id}</td>--%>
                     <td>${donation.institution.name}</td>
                     <td>${donation.quantity}</td>
                     <td>
@@ -39,14 +40,15 @@
                     ${category.name} <br>
                     </c:forEach>
                     </td>
-                    <td>
-                        <a href="/admin/edit/${admin.id}">
-                            <button type="button" class="btn btn--small">Edytuj</button>
-                        </a>
-                        <a href="/admin/delete/${admin.id}" class="delete-link">
-                            <button type="button" class="btn btn--small">Usuń</button>
-                        </a>
-                    </td>
+                    <td>${donation.pickUpDate}</td>
+<%--                    <td>--%>
+<%--                        <a href="/admin/edit/${admin.id}">--%>
+<%--                            <button type="button" class="btn btn--small">Edytuj</button>--%>
+<%--                        </a>--%>
+<%--                        <a href="/admin/delete/${admin.id}" class="delete-link">--%>
+<%--                            <button type="button" class="btn btn--small">Usuń</button>--%>
+<%--                        </a>--%>
+<%--                    </td>--%>
                 </tr>
             </c:forEach>
             </tbody>

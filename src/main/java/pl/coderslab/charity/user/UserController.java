@@ -9,12 +9,14 @@ import pl.coderslab.charity.email.MailService;
 
 import pl.coderslab.charity.passwordToken.PasswordToken;
 import pl.coderslab.charity.passwordToken.PasswordTokenRepository;
+import pl.coderslab.charity.passwordToken.PasswordTokenService;
 import pl.coderslab.charity.verificationToken.VerificationToken;
 import pl.coderslab.charity.verificationToken.VerificationTokenRepository;
+import pl.coderslab.charity.verificationToken.VerificationTokenService;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
-import java.util.UUID;
+
 
 
 @SessionAttributes("loggedUser")
@@ -25,14 +27,18 @@ public class UserController {
     private final MailService mailService;
     private final VerificationTokenRepository verificationTokenRepository;
     private final PasswordTokenRepository passwordTokenRepository;
+    private final VerificationTokenService verificationTokenService;
+    private final PasswordTokenService passwordTokenService;
 
-    public UserController(UserService userService, UserRepository userRepository, MailService mailService, VerificationTokenRepository verificationTokenRepository, PasswordTokenRepository passwordTokenRepository) {
+    public UserController(UserService userService, UserRepository userRepository, MailService mailService, VerificationTokenRepository verificationTokenRepository, PasswordTokenRepository passwordTokenRepository, VerificationTokenService verificationTokenService, PasswordTokenService passwordTokenService) {
         this.userService = userService;
         this.userRepository = userRepository;
 
         this.mailService = mailService;
         this.verificationTokenRepository = verificationTokenRepository;
         this.passwordTokenRepository = passwordTokenRepository;
+        this.verificationTokenService = verificationTokenService;
+        this.passwordTokenService = passwordTokenService;
     }
 
     @GetMapping("/login")
@@ -60,12 +66,8 @@ public class UserController {
             model.addAttribute("pass","failed");
             return "register";
         }
-        String token = UUID.randomUUID().toString();
         userService.saveUser(user);
-        VerificationToken userToken = new VerificationToken();
-        userToken.setToken(token);
-        userToken.setUser(user);
-        verificationTokenRepository.save(userToken);
+        String token = verificationTokenService.generateTokenForUser(user);
         try {
             mailService.sendMail(user.getEmail(),"Potwierdzenie rejestracji","Link do potwierdzenia rejestracji: " +
                     "<br> http://localhost:8080/registrationConfirm?token=" + token,true);
@@ -75,7 +77,7 @@ public class UserController {
         return "redirect:/login";
     }
     @GetMapping("/registrationConfirm")
-    public String registerConfirm(Model model,@RequestParam String token) {
+    public String registerConfirm(@RequestParam String token) {
         VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
         if(verificationToken != null){
             User user = verificationToken.getUser();
@@ -96,11 +98,7 @@ public class UserController {
             model.addAttribute("email","failed");
             return "/password/remember";
         }
-        String token = UUID.randomUUID().toString();
-        PasswordToken passToken = new PasswordToken();
-        passToken.setToken(token);
-        passToken.setUser(user);
-        passwordTokenRepository.save(passToken);
+        String token = passwordTokenService.generateTokenForUser(user);
         try {
             mailService.sendMail(user.getEmail(),"Reset hasła","Link do zmiany hasła: " +
                     "<br> http://localhost:8080/passwordReset?token=" + token,true);

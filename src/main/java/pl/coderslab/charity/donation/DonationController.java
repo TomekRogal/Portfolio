@@ -16,9 +16,11 @@ import pl.coderslab.charity.email.MailService;
 import pl.coderslab.charity.institution.Institution;
 import pl.coderslab.charity.institution.InstitutionRepository;
 import pl.coderslab.charity.user.CurrentUser;
+import pl.coderslab.charity.user.User;
 import pl.coderslab.charity.user.UserRepository;
 
 import javax.mail.MessagingException;
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -28,20 +30,18 @@ public class DonationController {
     private final CategoryRepository categoryRepository;
     private final InstitutionRepository institutionRepository;
     private final DonationRepository donationRepository;
-    private final UserRepository userRepository;
     private final MailService mailService;
-    private final DonationService donationService;
+    private final UserRepository userRepository;
 
     private final TemplateEngine templateEngine;
 
 
-    public DonationController(CategoryRepository categoryRepository, InstitutionRepository institutionRepository, DonationRepository donationRepository, UserRepository userRepository, MailService mailService, DonationService donationService, TemplateEngine templateEngine) {
+    public DonationController(CategoryRepository categoryRepository, InstitutionRepository institutionRepository, DonationRepository donationRepository, UserRepository userRepository, MailService mailService, DonationService donationService, UserRepository userRepository1, TemplateEngine templateEngine) {
         this.categoryRepository = categoryRepository;
         this.institutionRepository = institutionRepository;
         this.donationRepository = donationRepository;
-        this.userRepository = userRepository;
         this.mailService = mailService;
-        this.donationService = donationService;
+        this.userRepository = userRepository1;
         this.templateEngine = templateEngine;
     }
 
@@ -57,11 +57,10 @@ public class DonationController {
 
     @GetMapping("/donation")
     public String add(@AuthenticationPrincipal CurrentUser customUser, Model model) {
-        if (customUser != null) {
-            model.addAttribute("loggedUser", userRepository.findById(customUser.getUser().getId()).get());
-        }
+        User user = userRepository.findById(customUser.getUser().getId()).orElseThrow(EntityNotFoundException::new);
+        model.addAttribute("loggedUser", user);
         Donation donation = new Donation();
-        donation.setUser(customUser.getUser());
+        donation.setUser(user);
         model.addAttribute("donation", donation);
         return "form";
     }
@@ -74,11 +73,9 @@ public class DonationController {
         donationRepository.save(donation);
         Context context = new Context();
         context.setVariable("donation", donation);
-        context.setVariable("url", "aaaa");
         String text = templateEngine.process("emailTemplate", context);
         try {
-            mailService.sendMail("tomekrogalskitest@onet.pl", "Podsumowanie darowizny", text, true);
-//            mailService.sendMail(customUser.getUser().getEmail(), "Podsumowanie darowizny", donationService.donationInfo(donation), true);
+            mailService.sendMail(customUser.getUser().getEmail(), "Podsumowanie darowizny", text, true);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
@@ -87,26 +84,10 @@ public class DonationController {
 
     @GetMapping("/donation/all")
     public String all(@AuthenticationPrincipal CurrentUser customUser, Model model) {
-        if (customUser != null) {
-            model.addAttribute("loggedUser", userRepository.findById(customUser.getUser().getId()).get());
-        }
-        model.addAttribute("donations", donationRepository.findByUser(customUser.getUser()));
+        User user = userRepository.findById(customUser.getUser().getId()).orElseThrow(EntityNotFoundException::new);
+        model.addAttribute("loggedUser", user);
+        model.addAttribute("donations", donationRepository.findByUser(user));
         return "donation/all";
-    }
-
-    @GetMapping("/send")
-    public String sendMail(Model model) {
-        Context contex = new Context();
-        contex.setVariable("name", "aaaa");
-        contex.setVariable("url", "aaaa");
-        String text = templateEngine.process("emailTemplate", contex);
-        try {
-            mailService.sendMail("tomekrogalskitest@onet.pl", "Podsumowanie darowizny", text, true);
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        }
-
-        return "index";
     }
 
 }
