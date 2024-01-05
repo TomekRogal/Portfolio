@@ -36,7 +36,7 @@
                                 <tr
                                         style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                     <td class="content-block"
-                                        style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;"
+                                        style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 20px; vertical-align: top; margin: 0; padding: 0 0 20px;"
                                         valign="top">
                                         Witaj !
                                     </td>
@@ -46,13 +46,13 @@
                                     <td class="content-block"
                                         style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;"
                                         valign="top">
-                                        <p>Twoja darowizna:</p>
+                                        <p style="font-size: 20px">Twoja darowizna:</p>
                                         <p>
                                             Ilość worków: <strong style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" th:text="${donation.getQuantity()}"></strong> <br>
-                                            z kategorii: <strong style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" th:each="category: ${donation.getCategories()}" th:text="${category.getName()} "></strong><br>
+                                            z kategorii: <strong style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" th:each="category: ${donation.getCategories()}" th:text="${category.getName() + ' '} "> </strong><br>
                                             dla fundacji: <strong style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" th:text="${donation.getInstitution().getName()}"></strong> <br>
                                         </p>
-                                        <p>Adres dostawy:</p>
+                                        <p style="font-size: 20px">Adres dostawy:</p>
                                         <p>
                                             Ulica: <strong style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" th:text="${donation.getStreet()}"></strong> <br>
                                             Miasto: <strong style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" th:text="${donation.getCity()}"></strong> <br>
@@ -60,7 +60,8 @@
                                             Numer telefonu: <strong style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" th:text="${donation.getPhoneNumber()}"></strong> <br>
                                             Data odbioru: <strong style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" th:text="${donation.getPickUpDate()}"></strong> <br>
                                             Czas odbioru: <strong style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" th:text="${donation.getPickUpTime()}"></strong> <br>
-                                            Uwagi: <strong style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" th:text="${donation.getPickUpComment()}"></strong> <br>
+                                            Uwagi: <strong style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" th:if="${donation.getPickUpComment().equals('')}" th:text="Brak uwag"></strong>
+                                            <strong style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" th:unless="${donation.getPickUpComment().equals('')}" th:text="${donation.getPickUpComment()}"></strong> <br>
 
                                         </p>
                                 </tr>
