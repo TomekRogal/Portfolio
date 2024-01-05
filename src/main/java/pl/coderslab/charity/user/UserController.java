@@ -5,16 +5,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 import pl.coderslab.charity.email.MailService;
 
 import pl.coderslab.charity.passwordToken.PasswordToken;
 import pl.coderslab.charity.passwordToken.PasswordTokenRepository;
+import pl.coderslab.charity.passwordToken.PasswordTokenService;
 import pl.coderslab.charity.verificationToken.VerificationToken;
 import pl.coderslab.charity.verificationToken.VerificationTokenRepository;
+import pl.coderslab.charity.verificationToken.VerificationTokenService;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
-import java.util.UUID;
+
 
 
 @SessionAttributes("loggedUser")
@@ -25,14 +29,19 @@ public class UserController {
     private final MailService mailService;
     private final VerificationTokenRepository verificationTokenRepository;
     private final PasswordTokenRepository passwordTokenRepository;
-
-    public UserController(UserService userService, UserRepository userRepository, MailService mailService, VerificationTokenRepository verificationTokenRepository, PasswordTokenRepository passwordTokenRepository) {
+    private final VerificationTokenService verificationTokenService;
+    private final PasswordTokenService passwordTokenService;
+    private final TemplateEngine templateEngine;
+    public UserController(UserService userService, UserRepository userRepository, MailService mailService, VerificationTokenRepository verificationTokenRepository, PasswordTokenRepository passwordTokenRepository, VerificationTokenService verificationTokenService, PasswordTokenService passwordTokenService, TemplateEngine templateEngine) {
         this.userService = userService;
         this.userRepository = userRepository;
 
         this.mailService = mailService;
         this.verificationTokenRepository = verificationTokenRepository;
         this.passwordTokenRepository = passwordTokenRepository;
+        this.verificationTokenService = verificationTokenService;
+        this.passwordTokenService = passwordTokenService;
+        this.templateEngine = templateEngine;
     }
 
     @GetMapping("/login")
@@ -60,22 +69,21 @@ public class UserController {
             model.addAttribute("pass","failed");
             return "register";
         }
-        String token = UUID.randomUUID().toString();
         userService.saveUser(user);
-        VerificationToken userToken = new VerificationToken();
-        userToken.setToken(token);
-        userToken.setUser(user);
-        verificationTokenRepository.save(userToken);
+        String token = verificationTokenService.generateTokenForUser(user);
+        String url = "http://localhost:8080/registrationConfirm?token=" + token;
+        Context context = new Context();
+        context.setVariable("url", url);
+        String text = templateEngine.process("tokenTemplate", context);
         try {
-            mailService.sendMail(user.getEmail(),"Potwierdzenie rejestracji","Link do potwierdzenia rejestracji: " +
-                    "<br> http://localhost:8080/registrationConfirm?token=" + token,true);
+            mailService.sendMail(user.getEmail(),"Potwierdzenie rejestracji",text,true);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
         return "redirect:/login";
     }
     @GetMapping("/registrationConfirm")
-    public String registerConfirm(Model model,@RequestParam String token) {
+    public String registerConfirm(@RequestParam String token) {
         VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
         if(verificationToken != null){
             User user = verificationToken.getUser();
@@ -96,14 +104,13 @@ public class UserController {
             model.addAttribute("email","failed");
             return "/password/remember";
         }
-        String token = UUID.randomUUID().toString();
-        PasswordToken passToken = new PasswordToken();
-        passToken.setToken(token);
-        passToken.setUser(user);
-        passwordTokenRepository.save(passToken);
+        String token = passwordTokenService.generateTokenForUser(user);
+        String url = "http://localhost:8080/passwordReset?token=" + token;
+        Context context = new Context();
+        context.setVariable("url", url);
+        String text = templateEngine.process("passwordTemplate", context);
         try {
-            mailService.sendMail(user.getEmail(),"Reset hasła","Link do zmiany hasła: " +
-                    "<br> http://localhost:8080/passwordReset?token=" + token,true);
+            mailService.sendMail(user.getEmail(),"Reset hasła",text,true);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
