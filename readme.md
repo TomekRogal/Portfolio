@@ -1,19 +1,4 @@
 # Charity
+(Spring Boot & JSP).
 
-
-An application for managing charity donations, with UIs for users, institutions and admins.
-
-The aim of the project is to create a place where everyone can donate unnecessary items to trusted institutions.
-# Technologies
-- Spring Boot
-- Spring Data JPA
-- Hibernate
-- Spring Mail
-- Spring Form
-- Views: JSP files
-- Send HTML Email: Thymeleaf templates
-
-# App
-
-#### 1 - Starting page
-![stronaglowna.PNG](screenshot%2Fstronaglowna.PNG)
+An application for managing charity donations, with UIs for users, institutions and admins. The communication is acheived through Spring Mail.
