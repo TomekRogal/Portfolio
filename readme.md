@@ -16,4 +16,4 @@ The aim of the project is to create a place where everyone can donate unnecessar
 # App
 
 #### 1 - Starting page
-![alt text](https://raw.githubusercontent.com/TomekRogal/charity/master/screenshots/stronaglowna.PNG)
+![alt text](https://raw.githubusercontent.com/TomekRogal/charity/main/screenshots/stronaglowna.PNG)
