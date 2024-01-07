@@ -219,6 +219,7 @@
                             <ul>
                                 <li class="date"></li>
                                 <li class="time"></li>
+                                <h4>Uwagi:</h4>
                                 <li class="comment"></li>
                             </ul>
                         </div>

@@ -850,10 +850,10 @@ form.form--contact textarea::placeholder {
 /* line 2, scss/modules/_header.scss */
 header.header--main-page {
   background-image: url(../images/header-bg.jpg);
-  background-position: bottom left -30vh;
+  background-position: bottom left -10vh;
   background-repeat: no-repeat;
-  background-size: 70vw;
-  height: 100vh;
+  background-size: 35vw;
+  height: 50vh;
 }
 
 @media (min-width: 990px) and (max-width: 1230px) {
@@ -1506,7 +1506,7 @@ header nav ul li:last-of-type {
 
 /* line 1, scss/modules/_footer.scss */
 footer {
-  min-height: 80vh;
+  min-height: 60vh;
   background-image: url(../images/footer-bg.jpg);
   background-repeat: no-repeat;
   background-size: cover;
