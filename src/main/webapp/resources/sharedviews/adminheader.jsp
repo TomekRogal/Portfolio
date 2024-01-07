@@ -25,7 +25,7 @@
         </li>
     </ul>
     <ul>
-        <a href="/admin" style="float: left" class="btn btn--without-border active">Panel Administratora</a>
+        <li><a href="/admin" style="float: left" class="btn btn--without-border active">Panel Administratora</a></li>
         <li><a href="/" class="btn btn--without-border active">Start</a></li>
     </ul>
 </nav>

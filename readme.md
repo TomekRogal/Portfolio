@@ -1,10 +1,19 @@
+# Charity
 
-Przed przystąpieniem do pracy  przeczytaj poniższe wskazówki.
-## Jak zacząć?
 
-1. Zaimportuj projekt jako projekt `Maven`, wg poniższych wskazówek:
+An application for managing charity donations, with UIs for users, institutions and admins.
 
-	* W `IntelliJ` wybieramy: `File –> New –> Project from Existing Sources...`
-	* Wskazujemy lokalizację katalogu ze sklonowanym projektem i zatwierdzamy.
-	* Następnie w nowym oknie wybieramy: `Import project from external model` i wskazujemy `Maven`
-	* Wybieramy kolejno opcje: `Next –> Next –> Next –> Finish`
+The aim of the project is to create a place where everyone can donate unnecessary items to trusted institutions.
+# Technologies
+- Spring Boot
+- Spring Data JPA
+- Hibernate
+- Spring Mail
+- Spring Form
+- Views: JSP files
+- Send HTML Email: Thymeleaf templates
+
+# App
+
+#### 1 - Starting page
+![stronaglowna.PNG](screenshot%2Fstronaglowna.PNG)
