@@ -16,6 +16,7 @@ The aim of the project is to create a place where everyone can donate unnecessar
 # App
 
 #### 1 - Starting page
+
 ![alt text](https://github.com/TomekRogal/charity/blob/main/screenshot/stronaglowna.PNG?raw=true)
 #### 2 - Logged in user - donation form
 ![alt text](https://github.com/TomekRogal/charity/blob/main/screenshot/formularz.PNG?raw=true)
@@ -32,3 +33,4 @@ If you forget your password, you can submit a request for changing it to new one
 ![alt text](https://github.com/TomekRogal/charity/blob/main/screenshot/adminpanel.PNG?raw=true)
 If you log in as an administrator, you have access to the list of users, institutions and administrators, as well as their data and the ability to delete/block them.
 ![alt text](https://github.com/TomekRogal/charity/blob/main/screenshot/institution.PNG?raw=true)
+
